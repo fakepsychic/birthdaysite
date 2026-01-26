@@ -5,7 +5,15 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import Masonry from '@/components/Masonry';
 
-const images = [
+type ImageItem = {
+  id: string;
+  img: string;
+  url: string;
+  height: number;
+  caption?: string;
+};
+
+const images: ImageItem[] = [
   { id: '1', img: '/assets/gallery/p1.png', url: '#', height: 800, caption: 'Madam ji ki lag rhi ho😩' },
   { id: '2', img: '/assets/gallery/p2.jpg', url: '#', height: 600, caption: 'Looking hot asf' },
   { id: '3', img: '/assets/gallery/p3.png', url: '#', height: 900, caption: 'cutie' },
