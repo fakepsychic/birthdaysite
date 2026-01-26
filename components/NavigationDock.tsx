@@ -9,20 +9,17 @@ export default function NavigationDock() {
 
     const dockItems: DockItemData[] = [
         {
-            id: 'home',
-            icon: Home,
+            icon: <Home size={20} />,
             label: 'Home',
             onClick: () => router.push('/')
         },
         {
-            id: 'hub',
-            icon: Grid3x3,
+            icon: <Grid3x3 size={20} />,
             label: 'Hub',
             onClick: () => router.push('/hub')
         },
         {
-            id: 'cake',
-            icon: Cake,
+            icon: <Cake size={20} />,
             label: 'Cake',
             onClick: () => router.push('/cake')
         }
