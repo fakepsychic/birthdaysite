@@ -1,0 +1,253 @@
+'use client';
+
+import { useRouter } from 'next/navigation';
+import { motion } from 'framer-motion';
+import TiltedCard from '@/components/TiltedCard';
+import Head from 'next/head';
+import { useState } from 'react';
+
+export default function HubPage() {
+  const router = useRouter();
+  const [ribbonRotate, setRibbonRotate] = useState(0);
+
+  const icons = [
+    {
+      name: 'Gift',
+      href: '/gift',
+      src: '/assets/hub/gift.icon.png',
+      prominent: true,
+      size: 280,
+      offsetX: 85,
+      offsetY: 60,
+      offsetPx: 0
+    },
+    {
+      name: 'Notes',
+      href: '/notes',
+      src: '/assets/hub/note.icon.png',
+      prominent: false,
+      size: 300,
+      offsetX: -75,
+      offsetY: 145,
+      offsetPx: 50
+    },
+    {
+      name: 'Gallery',
+      href: '/gallery',
+      src: '/assets/hub/gallery.icon.png',
+      prominent: false,
+      size: 290,
+      offsetX: -25,
+      offsetY: 20,
+      offsetPx: 0
+    },
+    {
+      name: 'Music',
+      href: '/playlist',
+      src: '/assets/hub/musicplayer.icon.png',
+      prominent: false,
+      size: 270,
+      offsetX: -170,
+      offsetY: -85,
+      offsetPx: 0
+    },
+  ];
+
+  return (
+    <>
+      <Head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Pacifico&display=swap" rel="stylesheet" />
+      </Head>
+
+      <div className="relative w-screen h-screen overflow-hidden flex items-center justify-center" style={{
+        background: 'linear-gradient(135deg, #f3e8ff 0%, #e9d5ff 50%, #c084fc 100%)'
+      }}>
+        {/* Subtle grid pattern */}
+        <div className="absolute inset-0 opacity-[0.02]" style={{
+          backgroundImage: 'radial-gradient(circle, #000 1px, transparent 1px)',
+          backgroundSize: '40px 40px'
+        }} />
+
+        {/* Ambient gradient overlay */}
+        <div className="absolute inset-0">
+          <motion.div
+            className="absolute inset-0"
+            animate={{
+              background: [
+                'radial-gradient(circle at 20% 30%, rgba(0, 0, 0, 0.03) 0%, transparent 50%)',
+                'radial-gradient(circle at 80% 70%, rgba(0, 0, 0, 0.03) 0%, transparent 50%)',
+                'radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0.03) 0%, transparent 50%)',
+                'radial-gradient(circle at 20% 30%, rgba(0, 0, 0, 0.03) 0%, transparent 50%)',
+              ]
+            }}
+            transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+          />
+        </div>
+
+        {/* Vignette effect */}
+        <div className="absolute inset-0" style={{
+          background: 'radial-gradient(ellipse at center, transparent 40%, rgba(0, 0, 0, 0.05) 100%)'
+        }} />
+
+        {/* Floating geometric shapes */}
+        {[...Array(5)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute rounded-full border border-black/5"
+            style={{
+              width: `${150 + Math.random() * 200}px`,
+              height: `${150 + Math.random() * 200}px`,
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+            }}
+            animate={{
+              y: [0, -30, 0],
+              x: [0, Math.random() * 20 - 10, 0],
+              scale: [1, 1.05, 1],
+            }}
+            transition={{
+              duration: 8 + Math.random() * 4,
+              repeat: Infinity,
+              delay: Math.random() * 2,
+            }}
+          />
+        ))}
+
+        {/* Main viewport container - maintains 1080x1350 portrait ratio */}
+        <div
+          className="relative w-full h-full max-w-[85vh] max-h-[85vw] flex items-center justify-center"
+          style={{
+            boxShadow: '0 0 120px rgba(0, 0, 0, 0.5), 0 0 200px rgba(0, 0, 0, 0.3), 0 0 300px rgba(0, 0, 0, 0.2)',
+          }}
+        >
+          {/* Kuromi background image */}
+          <img
+            src="/assets/hub/backgroundhub.jpg"
+            className="absolute inset-0 w-full h-full object-cover"
+            alt=""
+            style={{
+              imageRendering: '-webkit-optimize-contrast',
+              filter: 'blur(0.48px)'
+            }}
+          />
+
+          {/* Subtle vignette overlay on portrait viewport */}
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background: 'radial-gradient(ellipse at center, transparent 50%, rgba(0, 0, 0, 0.2) 100%)',
+            }}
+          />
+
+          {/* Ribbon at top */}
+          <motion.img
+            src="/assets/hub/ribbon.png"
+            alt="ribbon"
+            className="absolute z-20 object-contain cursor-pointer"
+            style={{
+              left: 'calc(50% - 60px - 5%)',
+              top: '-35px',
+              transform: 'translateX(-50%)',
+              width: '150px',
+              filter: 'drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3)) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2))'
+            }}
+            initial={{ opacity: 0, y: -30 }}
+            animate={{
+              opacity: 1,
+              y: [0, -5, 0],
+              scale: [1, 1.05, 1],
+              rotate: ribbonRotate
+            }}
+            transition={{
+              opacity: { duration: 0.8, ease: [0.16, 1, 0.3, 1] },
+              y: { duration: 3, repeat: Infinity, ease: 'easeInOut' },
+              scale: { duration: 3, repeat: Infinity, ease: 'easeInOut' },
+              rotate: { duration: 1, ease: [0.16, 1, 0.3, 1] }
+            }}
+            onClick={() => setRibbonRotate(prev => prev + 720)}
+          />
+
+          {/* Icon Grid - centered as a group */}
+          <div className="relative w-full h-full flex items-center justify-center px-12 md:px-16 z-10">
+            <div className="relative" style={{ width: '800px', height: '800px' }}>
+              {icons.slice().reverse().map((icon, reverseIndex) => {
+                const index = icons.length - 1 - reverseIndex; // Get original index
+                // Calculate grid position (2x2 grid)
+                const row = Math.floor(index / 2);
+                const col = index % 2;
+                const baseX = col * 400; // 400px spacing horizontally
+                const baseY = row * 400; // 400px spacing vertically
+
+                return (
+                  <div
+                    key={icon.name}
+                    className="absolute"
+                    style={{
+                      left: `${baseX}px`,
+                      top: `${baseY}px`,
+                      transform: `translateX(calc(${icon.offsetX || 0}% + ${icon.offsetPx || 0}px)) translateY(${icon.offsetY || 0}%)`,
+                      width: `${icon.size}px`,
+                      height: `${icon.size}px`,
+                      isolation: 'isolate',
+                      zIndex: index,
+                    }}
+                  >
+                    <motion.div
+                      initial={{ opacity: 0, y: 30, scale: 0.8 }}
+                      animate={{
+                        opacity: 1,
+                        y: [0, -8, 0],
+                        scale: 1
+                      }}
+                      transition={{
+                        opacity: { duration: 0.6, delay: index * 0.15 },
+                        scale: { duration: 0.6, delay: index * 0.15, ease: [0.16, 1, 0.3, 1] },
+                        y: {
+                          duration: 4,
+                          repeat: Infinity,
+                          ease: 'easeInOut',
+                          delay: index * 0.15
+                        }
+                      }}
+                      whileHover={{
+                        scale: 1.08,
+                        filter: 'drop-shadow(0 0 20px rgba(255, 255, 255, 0.6)) drop-shadow(0 0 40px rgba(255, 255, 255, 0.4))',
+                      }}
+                      transition={{
+                        scale: { type: 'spring', stiffness: 300, damping: 20 },
+                        filter: { duration: 0.3 }
+                      }}
+                      style={{
+                        isolation: 'isolate',
+                        transformStyle: 'preserve-3d',
+                      }}
+                    >
+                      <TiltedCard
+                        imageSrc={icon.src}
+                        altText={icon.name}
+                        containerHeight={`${icon.size}px`}
+                        containerWidth={`${icon.size}px`}
+                        imageHeight={`${icon.size}px`}
+                        imageWidth={`${icon.size}px`}
+                        scaleOnHover={1.05}
+                        rotateAmplitude={10}
+                        showMobileWarning={false}
+                        showTooltip={false}
+                        onClick={() => {
+                          console.log('Icon clicked:', icon.name);
+                          router.push(icon.href);
+                        }}
+                      />
+                    </motion.div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
