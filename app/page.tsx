@@ -64,7 +64,7 @@ export default function Welcome() {
   }
 
   return (
-    <div className="relative flex items-center justify-center min-h-screen overflow-hidden">
+    <div className="fixed inset-0 flex items-center justify-center overflow-hidden">
       {/* Toggle Button */}
       <motion.button
         onClick={toggleTheme}
@@ -130,17 +130,16 @@ export default function Welcome() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8 }}
-        className="relative bg-cover bg-center z-10"
+        className="relative bg-cover bg-center z-10 w-full h-full"
         style={{
-          width: '520px',
-          maxWidth: '100%',
+          maxWidth: '100vh',
+          maxHeight: '100vw',
           aspectRatio: '1080 / 1350',
           backgroundImage: isDayMode
             ? 'url(/assets/day%20welcome/day%20bg.png)'
             : 'url(/assets/night%20welcome/night%20bg.png)',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
-          transform: 'scale(1.15)',
           boxShadow: '0 0 60px rgba(0, 0, 0, 0.3), 0 0 120px rgba(0, 0, 0, 0.2), 0 20px 80px rgba(0, 0, 0, 0.4)',
         }}
       >

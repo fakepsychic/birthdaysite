@@ -207,15 +207,12 @@ export default function HubPage() {
                           repeat: Infinity,
                           ease: 'easeInOut',
                           delay: index * 0.15
-                        }
+                        },
+                        default: { duration: 0.4, ease: [0.4, 0, 0.2, 1] }
                       }}
                       whileHover={{
                         scale: 1.08,
                         filter: 'drop-shadow(0 0 20px rgba(255, 255, 255, 0.6)) drop-shadow(0 0 40px rgba(255, 255, 255, 0.4))',
-                        transition: {
-                          scale: { type: 'spring', stiffness: 300, damping: 20 },
-                          filter: { duration: 0.3 }
-                        }
                       }}
                       style={{
                         isolation: 'isolate',
