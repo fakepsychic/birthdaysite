@@ -12,13 +12,33 @@ export default function HubPage() {
 
   const icons = [
     {
+      name: 'Music',
+      href: '/playlist',
+      src: '/assets/hub/musicplayer.icon.png',
+      prominent: false,
+      size: 270,
+      offsetX: -10,
+      offsetY: -10,
+      offsetPx: 0
+    },
+    {
       name: 'Gift',
       href: '/gift',
       src: '/assets/hub/gift.icon.png',
       prominent: true,
       size: 280,
-      offsetX: 85,
-      offsetY: 60,
+      offsetX: 12,
+      offsetY: -5,
+      offsetPx: 0
+    },
+    {
+      name: 'Gallery',
+      href: '/gallery',
+      src: '/assets/hub/gallery.icon.png',
+      prominent: false,
+      size: 290,
+      offsetX: -12,
+      offsetY: -20,
       offsetPx: 0
     },
     {
@@ -27,30 +47,10 @@ export default function HubPage() {
       src: '/assets/hub/note.icon.png',
       prominent: false,
       size: 300,
-      offsetX: -75,
-      offsetY: 145,
-      offsetPx: 50
-    },
-    {
-      name: 'Gallery',
-      href: '/gallery',
-      src: '/assets/hub/gallery.icon.png',
-      prominent: false,
-      size: 290,
-      offsetX: -25,
-      offsetY: 20,
+      offsetX: 10,
+      offsetY: -25,
       offsetPx: 0
-    },
-    {
-      name: 'Music',
-      href: '/playlist',
-      src: '/assets/hub/musicplayer.icon.png',
-      prominent: false,
-      size: 270,
-      offsetX: -170,
-      offsetY: -85,
-      offsetPx: 0
-    },
+    }
   ];
 
   return (
@@ -171,27 +171,25 @@ export default function HubPage() {
 
           {/* Icon Grid - centered as a group */}
           <div className="relative w-full h-full flex items-center justify-center px-12 md:px-16 z-10">
-            <div className="relative" style={{ width: '800px', height: '800px' }}>
-              {icons.slice().reverse().map((icon, reverseIndex) => {
-                const index = icons.length - 1 - reverseIndex; // Get original index
-                // Calculate grid position (2x2 grid)
-                const row = Math.floor(index / 2);
-                const col = index % 2;
-                const baseX = col * 400; // 400px spacing horizontally
-                const baseY = row * 400; // 400px spacing vertically
-
+            <div
+              className="grid grid-cols-2 gap-16"
+              style={{
+                width: 'min(70vw, 800px)',
+                height: 'min(70vh, 800px)',
+                placeItems: 'center'
+              }}
+            >
+              {icons.map((icon, index) => {
                 return (
                   <div
                     key={icon.name}
-                    className="absolute"
+                    className="flex items-center justify-center"
                     style={{
-                      left: `${baseX}px`,
-                      top: `${baseY}px`,
-                      transform: `translateX(calc(${icon.offsetX || 0}% + ${icon.offsetPx || 0}px)) translateY(${icon.offsetY || 0}%)`,
                       width: `${icon.size}px`,
                       height: `${icon.size}px`,
                       isolation: 'isolate',
                       zIndex: index,
+                      transform: `translate(calc(${icon.offsetX || 0}% + ${icon.offsetPx || 0}px), calc(${icon.offsetY || 0}% + ${icon.offsetPx || 0}px))`
                     }}
                   >
                     <motion.div
