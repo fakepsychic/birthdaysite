@@ -138,7 +138,7 @@ const SongWidget: FC<SongWidgetProps> = ({
                 height: '280px',
                 rotate: isDragging ? dragRotation : affectedRotation,
                 zIndex: rank,
-                boxShadow: '0 10px 20px rgba(0, 0, 0, 0.1), 0 5px 10px rgba(0, 0, 0, 0.08)',
+                boxShadow: '0 8px 16px rgba(0, 0, 0, 0.08), 0 4px 8px rgba(0, 0, 0, 0.06)',
             }}
         >
             <div className="absolute left-0 top-0 -z-10 h-full w-full bg-zinc-300"></div>
