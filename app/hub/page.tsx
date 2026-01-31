@@ -141,32 +141,29 @@ export default function HubPage() {
             }}
           />
 
-          {/* Ribbon at top */}
+          {/* Title at top */}
           <motion.img
-            src="/assets/hub/ribbon.png"
-            alt="ribbon"
-            className="absolute z-20 object-contain cursor-pointer"
+            src="/assets/hub/title.png"
+            alt="title"
+            className="absolute z-20 object-contain"
             style={{
-              left: 'calc(50% - 60px - 5%)',
-              top: '-35px',
+              left: '31%',
+              top: '1%',
               transform: 'translateX(-50%)',
-              width: '150px',
+              width: '34.71563%',
               filter: 'drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3)) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2))'
             }}
             initial={{ opacity: 0, y: -30 }}
             animate={{
               opacity: 1,
               y: [0, -5, 0],
-              scale: [1, 1.05, 1],
-              rotate: ribbonRotate
+              scale: [1, 1.05, 1]
             }}
             transition={{
               opacity: { duration: 0.8, ease: [0.16, 1, 0.3, 1] },
               y: { duration: 3, repeat: Infinity, ease: 'easeInOut' },
-              scale: { duration: 3, repeat: Infinity, ease: 'easeInOut' },
-              rotate: { duration: 1, ease: [0.16, 1, 0.3, 1] }
+              scale: { duration: 3, repeat: Infinity, ease: 'easeInOut' }
             }}
-            onClick={() => setRibbonRotate(prev => prev + 720)}
           />
 
           {/* Icon Grid - centered as a group */}

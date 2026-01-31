@@ -8,6 +8,15 @@ export type Song = {
 
 // Exporting a constant array of songs
 export const songs: Song[] = [
+
+
+
+        {
+        id: "chii",
+        title: "Aarzu-trash version(ft.Adil)",
+        artist: "Adil",
+        image: "/audio/arzu.jpeg",
+    },
     {
         id: "RTC Bonus",
         title: "Rakhlo tum chupake",

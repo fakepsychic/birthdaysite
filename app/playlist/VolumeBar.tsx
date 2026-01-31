@@ -54,7 +54,7 @@ const VolumeBar: FC<VolumeBarProps> = ({
     }
 
     return (
-        <div className="flex flex-col items-center justify-center gap-2 overflow-hidden translate-x-[200px]">
+        <div className="flex flex-col items-center justify-center gap-2 overflow-hidden translate-x-[200px] translate-y-[5vh]">
             <div
                 ref={range}
                 className="flex h-40 w-5 items-end overflow-hidden rounded-full bg-zinc-300"

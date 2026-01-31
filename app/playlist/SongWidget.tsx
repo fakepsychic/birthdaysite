@@ -127,7 +127,7 @@ const SongWidget: FC<SongWidgetProps> = ({
     return (
         <motion.div
             ref={ref}
-            className="absolute flex cursor-grab items-center justify-center overflow-hidden rounded-[42px] active:cursor-grabbing shadow-2xl"
+            className="absolute flex cursor-grab items-center justify-center overflow-hidden rounded-[42px] active:cursor-grabbing"
             drag="x"
             dragMomentum
             dragConstraints={{ top: 0, left: 0, right: 0, bottom: 0 }}
@@ -138,7 +138,7 @@ const SongWidget: FC<SongWidgetProps> = ({
                 height: '280px',
                 rotate: isDragging ? dragRotation : affectedRotation,
                 zIndex: rank,
-                boxShadow: '0 20px 40px rgba(0, 0, 0, 0.15), 0 10px 20px rgba(0, 0, 0, 0.1)',
+                boxShadow: '0 10px 20px rgba(0, 0, 0, 0.1), 0 5px 10px rgba(0, 0, 0, 0.08)',
             }}
         >
             <div className="absolute left-0 top-0 -z-10 h-full w-full bg-zinc-300"></div>

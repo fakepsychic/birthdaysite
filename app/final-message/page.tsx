@@ -83,7 +83,7 @@ export default function MessagePage() {
             initial={{ opacity: 0, scale: 0, rotate: -45 }}
             animate={{
               opacity: 1,
-              scale: 1.26,
+              scale: 0.882,
               rotate: 0
             }}
             transition={{

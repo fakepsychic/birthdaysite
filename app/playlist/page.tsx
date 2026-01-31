@@ -47,7 +47,7 @@ export default function PlaylistPage() {
   }
 
   return (
-    <main className="min-h-screen flex flex-col items-center justify-center gap-12" style={{ background: 'linear-gradient(to bottom, #f9a8d4, #ffffff, #d8b4fe)' }}>
+    <main className="fixed inset-0 flex flex-col items-center justify-center gap-12 pb-20" style={{ background: 'linear-gradient(to bottom, #f9a8d4 0%, #ffffff 50%, #d8b4fe 90%, #d8b4fe 100%)', overflow: 'clip' }}>
       <div className="absolute inset-0 pointer-events-none">
         <ClickSpark
           sparkColor="#a950bbff"
