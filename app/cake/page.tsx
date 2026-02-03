@@ -8,21 +8,47 @@ import Ribbons from '@/components/Ribbons';
 
 function useMicBlow(onBlow: () => void, enabled: boolean) {
   const triggered = useRef(false);
-  const cleanupRef = useRef<(() => void) | null>(null);
+  const streamRef = useRef<MediaStream | null>(null);
+  const audioCtxRef = useRef<AudioContext | null>(null);
+  const rafIdRef = useRef<number | null>(null);
+
+  const forceCleanup = () => {
+    if (rafIdRef.current) {
+      cancelAnimationFrame(rafIdRef.current);
+      rafIdRef.current = null;
+    }
+    if (streamRef.current) {
+      streamRef.current.getTracks().forEach(track => {
+        track.stop();
+        track.enabled = false;
+      });
+      streamRef.current = null;
+    }
+    if (audioCtxRef.current) {
+      audioCtxRef.current.close();
+      audioCtxRef.current = null;
+    }
+  };
 
   useEffect(() => {
-    if (!enabled) return;
+    if (!enabled) {
+      forceCleanup();
+      return;
+    }
 
     let audioCtx: AudioContext;
     let analyser: AnalyserNode;
     let dataArray: Uint8Array<ArrayBuffer>;
-    let rafId: number;
     let stream: MediaStream;
 
     async function init() {
       try {
         stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        streamRef.current = stream;
+
         audioCtx = new AudioContext();
+        audioCtxRef.current = audioCtx;
+
         const source = audioCtx.createMediaStreamSource(stream);
         analyser = audioCtx.createAnalyser();
         analyser.fftSize = 256;
@@ -30,6 +56,8 @@ function useMicBlow(onBlow: () => void, enabled: boolean) {
         dataArray = new Uint8Array(analyser.frequencyBinCount);
 
         const tick = () => {
+          if (!streamRef.current || !audioCtxRef.current) return;
+
           analyser.getByteTimeDomainData(dataArray);
 
           let sum = 0;
@@ -42,27 +70,18 @@ function useMicBlow(onBlow: () => void, enabled: boolean) {
 
           if (volume > 0.07 && !triggered.current) {
             triggered.current = true;
-            onBlow();
 
-            // Cleanup microphone after 0.5s
-            setTimeout(() => {
-              if (rafId) cancelAnimationFrame(rafId);
-              if (stream) stream.getTracks().forEach(track => track.stop());
-              if (audioCtx) audioCtx.close();
-            }, 500);
+            // Cleanup microphone immediately BEFORE calling onBlow
+            forceCleanup();
+
+            onBlow();
             return;
           }
 
-          rafId = requestAnimationFrame(tick);
+          rafIdRef.current = requestAnimationFrame(tick);
         };
 
         tick();
-
-        cleanupRef.current = () => {
-          if (rafId) cancelAnimationFrame(rafId);
-          if (stream) stream.getTracks().forEach(track => track.stop());
-          if (audioCtx) audioCtx.close();
-        };
       } catch (error) {
         console.error('Microphone access denied:', error);
       }
@@ -71,7 +90,7 @@ function useMicBlow(onBlow: () => void, enabled: boolean) {
     init();
 
     return () => {
-      if (cleanupRef.current) cleanupRef.current();
+      forceCleanup();
     };
   }, [onBlow, enabled]);
 }
@@ -88,9 +107,54 @@ export default function CakePage() {
   const [enableHover, setEnableHover] = useState(false);
 
   const touchStartRef = useRef<{ x: number; y: number; time: number } | null>(null);
+  const bgAudioRef = useRef<HTMLAudioElement>(null);
+  const clapAudioRef = useRef<HTMLAudioElement>(null);
+
+  useEffect(() => {
+    if (bgAudioRef.current) {
+      bgAudioRef.current.volume = 0.3;
+    }
+    if (clapAudioRef.current) {
+      clapAudioRef.current.volume = 1.0;
+    }
+  }, []);
 
   useMicBlow(() => {
     setFlameOut(true);
+    setEnableMicBlow(false); // Disable mic immediately after blow
+
+    // Play clap sound when candle is blown out
+    if (clapAudioRef.current) {
+      clapAudioRef.current.play();
+    }
+
+    // Resume background music at 50% lower volume (0.3 * 0.5 = 0.15)
+    if (bgAudioRef.current) {
+      bgAudioRef.current.volume = 0.15;
+      bgAudioRef.current.play();
+
+      // Smoothly fade back to normal volume after clap finishes
+      // Typical clap duration is ~3-5 seconds, wait for it to finish
+      setTimeout(() => {
+        if (bgAudioRef.current) {
+          const targetVolume = 0.3;
+          const fadeDuration = 2000; // 2 second fade
+          const steps = 40;
+          const stepDuration = fadeDuration / steps;
+          const volumeStep = (targetVolume - 0.15) / steps;
+
+          let currentStep = 0;
+          const fadeInterval = setInterval(() => {
+            if (bgAudioRef.current && currentStep < steps) {
+              bgAudioRef.current.volume = Math.min(targetVolume, bgAudioRef.current.volume + volumeStep);
+              currentStep++;
+            } else {
+              clearInterval(fadeInterval);
+            }
+          }, stepDuration);
+        }
+      }, 5000); // Wait 5 seconds for clap to finish
+    }
   }, enableMicBlow);
 
   // Transition to State 2 after mascot animation
@@ -106,6 +170,27 @@ export default function CakePage() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setEnableMicBlow(true);
+
+      // Fade out background music when ready to blow
+      if (bgAudioRef.current) {
+        const fadeOutDuration = 1000; // 1 second fade
+        const steps = 20;
+        const stepDuration = fadeOutDuration / steps;
+        const volumeStep = bgAudioRef.current.volume / steps;
+
+        let currentStep = 0;
+        const fadeInterval = setInterval(() => {
+          if (bgAudioRef.current && currentStep < steps) {
+            bgAudioRef.current.volume = Math.max(0, bgAudioRef.current.volume - volumeStep);
+            currentStep++;
+          } else {
+            clearInterval(fadeInterval);
+            if (bgAudioRef.current) {
+              bgAudioRef.current.pause();
+            }
+          }
+        }, stepDuration);
+      }
     }, 4600); // Black screen finishes fading at ~3.6s, + 1s = 4.6s
 
     return () => clearTimeout(timer);
@@ -210,6 +295,12 @@ export default function CakePage() {
       extraScale={1.2}
       onChildClick={handleScreenTap}
     >
+      {/* Background Music - Happy Birthday Theme */}
+      <audio ref={bgAudioRef} src="/audio/happy birtday theme.mp3" loop autoPlay preload="auto" />
+
+      {/* Clap Sound Effect */}
+      <audio ref={clapAudioRef} src="/audio/Clap.mp3" preload="auto" />
+
       <div
         className="relative w-screen h-screen overflow-hidden bg-black flex items-center justify-center"
         onTouchStart={handleTouchStart}

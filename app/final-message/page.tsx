@@ -3,11 +3,18 @@
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import DockNavigation from '@/components/DockNavigation';
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
 export default function MessagePage() {
   const router = useRouter();
   const [isBouncing, setIsBouncing] = useState(false);
+  const audioRef = useRef<HTMLAudioElement>(null);
+
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.volume = 0.24;
+    }
+  }, []);
 
   const handleBackToHub = () => {
     router.push('/hub');
@@ -23,6 +30,9 @@ export default function MessagePage() {
       className="fixed inset-0 flex items-center justify-center overflow-hidden"
       style={{ background: 'linear-gradient(135deg, #ffd6e0 0%, #ffb6c1 50%, #ff69b4 100%)' }}
     >
+      {/* Background Music */}
+      <audio ref={audioRef} src="/audio/welcomepage.mp3" loop autoPlay preload="auto" />
+
       {/* Main container grouping letter, pin, and Kuromi - scales together */}
       <div className="relative w-full h-full max-w-[85vh] max-h-[85vw] flex items-center justify-center">
         {/* Kuromi GIF */}

@@ -16,7 +16,7 @@ export default function Welcome() {
   const router = useRouter();
   const [isMobile, setIsMobile] = useState(false);
   const [isDayMode, setIsDayMode] = useState(true);
-  const [bgMuted, setBgMuted] = useState(false);
+  const [bgMuted, setBgMuted] = useState(true);
   const mascotRef = useRef<HTMLDivElement>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
 
@@ -33,7 +33,7 @@ export default function Welcome() {
 
   useEffect(() => {
     if (audioRef.current) {
-      audioRef.current.volume = 0.3;
+      audioRef.current.volume = 0.24;
     }
   }, []);
 
@@ -78,7 +78,13 @@ export default function Welcome() {
 
       {/* Mute Button */}
       <motion.button
-        onClick={() => setBgMuted(!bgMuted)}
+        onClick={() => {
+          const newMutedState = !bgMuted;
+          setBgMuted(newMutedState);
+          if (!newMutedState && audioRef.current) {
+            audioRef.current.play();
+          }
+        }}
         className="absolute top-8 left-8 z-50 px-4 py-3 rounded-full backdrop-blur-md border-2 border-white/30 shadow-lg text-2xl"
         style={{
           background: isDayMode

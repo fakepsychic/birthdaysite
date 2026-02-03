@@ -9,7 +9,6 @@ import { useState, useEffect, useRef } from 'react';
 export default function HubPage() {
   const router = useRouter();
   const [ribbonRotate, setRibbonRotate] = useState(0);
-  const [bgMuted, setBgMuted] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
 
   useEffect(() => {
@@ -73,20 +72,7 @@ export default function HubPage() {
         background: 'linear-gradient(135deg, #f3e8ff 0%, #e9d5ff 50%, #c084fc 100%)'
       }}>
         {/* Background Music */}
-        <audio ref={audioRef} src="/audio/hubpage.mp3" loop muted={bgMuted} autoPlay preload="auto" />
-
-        {/* Mute Button */}
-        <motion.button
-          onClick={() => setBgMuted(!bgMuted)}
-          className="absolute top-8 left-8 z-50 px-4 py-3 rounded-full backdrop-blur-md border-2 border-white/30 shadow-lg text-2xl"
-          style={{
-            background: 'linear-gradient(135deg, #f3e8ff 0%, #e9d5ff 100%)'
-          }}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          {bgMuted ? '🔇' : '🔊'}
-        </motion.button>
+        <audio ref={audioRef} src="/audio/hubpage.mp3" loop autoPlay preload="auto" />
 
         {/* Subtle grid pattern */}
         <div className="absolute inset-0 opacity-[0.02]" style={{
