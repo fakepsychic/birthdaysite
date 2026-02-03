@@ -11,18 +11,21 @@ export const songs: Song[] = [
 
 
 
-        {
-        id: "chii",
-        title: "Aarzu-trash version(ft.Adil)",
-        artist: "Adil",
-        image: "/audio/arzu.jpeg",
-    },
+      
     {
         id: "RTC Bonus",
         title: "Rakhlo tum chupake",
         artist: "Armpit Bala",
         image: "https://i.pinimg.com/736x/8e/05/b9/8e05b97803800d59f905b815cf5108ca.jpg",
     },
+
+      {
+        id: "chii",
+        title: "Aarzu-trash version(ft.Adil)",
+        artist: "Adil",
+        image: "/audio/arzu.jpeg",
+    },
+    
     {
         id: "Afterhours",
         title: "Afterhours",

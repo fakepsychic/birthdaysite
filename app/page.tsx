@@ -16,7 +16,9 @@ export default function Welcome() {
   const router = useRouter();
   const [isMobile, setIsMobile] = useState(false);
   const [isDayMode, setIsDayMode] = useState(true);
+  const [bgMuted, setBgMuted] = useState(false);
   const mascotRef = useRef<HTMLDivElement>(null);
+  const audioRef = useRef<HTMLAudioElement>(null);
 
   const rotateX = useSpring(useMotionValue(0), springValues);
   const rotateY = useSpring(useMotionValue(0), springValues);
@@ -27,6 +29,12 @@ export default function Welcome() {
     const handleResize = () => setIsMobile(window.innerWidth < 768);
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.volume = 0.3;
+    }
   }, []);
 
   const handleButtonClick = () => {
@@ -65,6 +73,24 @@ export default function Welcome() {
 
   return (
     <div className="fixed inset-0 flex items-center justify-center overflow-hidden">
+      {/* Background Music */}
+      <audio ref={audioRef} src="/audio/welcomepage.mp3" loop muted={bgMuted} autoPlay preload="auto" />
+
+      {/* Mute Button */}
+      <motion.button
+        onClick={() => setBgMuted(!bgMuted)}
+        className="absolute top-8 left-8 z-50 px-4 py-3 rounded-full backdrop-blur-md border-2 border-white/30 shadow-lg text-2xl"
+        style={{
+          background: isDayMode
+            ? 'linear-gradient(135deg, #a8daff 0%, #e0f4ff 100%)'
+            : 'linear-gradient(135deg, #1e1b4b 0%, #4c1d95 100%)'
+        }}
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+      >
+        {bgMuted ? '🔇' : '🔊'}
+      </motion.button>
+
       {/* Toggle Button */}
       <motion.button
         onClick={toggleTheme}
@@ -82,7 +108,7 @@ export default function Welcome() {
           animate={{
             opacity: isDayMode ? 1 : 0.3,
             scale: isDayMode ? 1.2 : 0.9,
-            filter: isDayMode ? 'brightness(1.2) drop-shadow(0 0 8px rgba(255, 200, 0, 0.8))' : 'brightness(0.5)'
+            filter: isDayMode ? 'brightness(1.3) drop-shadow(0 0 12px rgba(255, 200, 0, 1)) drop-shadow(0 0 20px rgba(255, 200, 0, 0.6))' : 'brightness(0.5)'
           }}
           transition={{ duration: 0.3 }}
           className="text-2xl"
@@ -98,7 +124,7 @@ export default function Welcome() {
           animate={{
             opacity: isDayMode ? 0.3 : 1,
             scale: isDayMode ? 0.9 : 1.2,
-            filter: isDayMode ? 'brightness(0.5)' : 'brightness(1.2) drop-shadow(0 0 8px rgba(200, 200, 255, 0.8))'
+            filter: isDayMode ? 'brightness(0.5)' : 'brightness(1.3) drop-shadow(0 0 12px rgba(200, 200, 255, 1)) drop-shadow(0 0 20px rgba(200, 200, 255, 0.6))'
           }}
           transition={{ duration: 0.3 }}
           className="text-2xl"

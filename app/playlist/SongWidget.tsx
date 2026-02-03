@@ -18,6 +18,10 @@ type SongWidgetProps = {
     setLeaning: (leaning: Lean) => void
     volume: number
     muted: boolean
+    showTooltip: boolean
+    setShowTooltip: (show: boolean) => void
+    hasShownTooltip: boolean
+    setHasShownTooltip: (shown: boolean) => void
 }
 
 const SongWidget: FC<SongWidgetProps> = ({
@@ -29,6 +33,10 @@ const SongWidget: FC<SongWidgetProps> = ({
     setLeaning,
     volume,
     muted,
+    showTooltip,
+    setShowTooltip,
+    hasShownTooltip,
+    setHasShownTooltip,
 }) => {
     const rank = orderedSongs.indexOf(song.id)
     const previousRank = previousOrderedSongs.indexOf(song.id)
@@ -42,6 +50,21 @@ const SongWidget: FC<SongWidgetProps> = ({
     const dragRotation = useTransform(dragOffset, [-200, 200], [-5, 5])
     const affectedRotation = useMotionValue(0)
     const audioRef = useRef<HTMLAudioElement | null>(null)
+
+    const handleMouseEnter = () => {
+        console.log('Mouse entered, song id:', song.id, 'hasShownTooltip:', hasShownTooltip)
+        if (song.id === 'chii' && !hasShownTooltip) {
+            console.log('Showing tooltip!')
+            setShowTooltip(true)
+            setHasShownTooltip(true)
+        }
+    }
+
+    const handleMouseLeave = () => {
+        if (song.id === 'chii') {
+            setShowTooltip(false)
+        }
+    }
 
     const handleDrag = (_: unknown, info: PanInfo) => {
         setIsDragging(true)
@@ -133,6 +156,8 @@ const SongWidget: FC<SongWidgetProps> = ({
             dragConstraints={{ top: 0, left: 0, right: 0, bottom: 0 }}
             onDragEnd={handleDragEnd}
             onDrag={handleDrag}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
             style={{
                 width: '280px',
                 height: '280px',
@@ -153,6 +178,7 @@ const SongWidget: FC<SongWidgetProps> = ({
                 height={300}
             />
             <div className="absolute bottom-0 left-0 h-1/2 w-full bg-gradient-to-t from-black to-transparent"></div>
+
             <div className="absolute bottom-0 left-0 flex w-full items-center justify-start gap-2 p-4">
                 <Waveform
                     active={isActive}

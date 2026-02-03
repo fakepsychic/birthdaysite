@@ -12,11 +12,13 @@ export type Lean = "left" | "right" | null
 
 export default function PlaylistPage() {
   const [showSinging, setShowSinging] = useState(false)
+  const [showTooltip, setShowTooltip] = useState(false)
+  const [hasShownTooltip, setHasShownTooltip] = useState(false)
 
   useEffect(() => {
     // Load Google Fonts dynamically
     const link = document.createElement('link');
-    link.href = 'https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Momo+Signature&family=Pacifico&display=swap';
+    link.href = 'https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Momo+Signature&family=Pacifico&family=Playwrite+NZ+Basic:wght@100..400&display=swap';
     link.rel = 'stylesheet';
     document.head.appendChild(link);
   }, []);
@@ -142,9 +144,46 @@ export default function PlaylistPage() {
             setLeaning={setLeaning}
             volume={volume}
             muted={muted}
+            showTooltip={showTooltip}
+            setShowTooltip={setShowTooltip}
+            hasShownTooltip={hasShownTooltip}
+            setHasShownTooltip={setHasShownTooltip}
           />
         ))}
       </motion.div>
+
+      {/* Tooltip for custom song - speech bubble from mascot */}
+      {showTooltip && (
+        <motion.div
+          className="absolute pointer-events-none"
+          style={{
+            zIndex: 9999,
+            left: 'calc(50% - 550px)',
+            top: 'calc(50% - 200px)'
+          }}
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.9 }}
+          transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+        >
+          <svg width="400" height="200" viewBox="0 0 400 200" className="drop-shadow-xl">
+            {/* Speech bubble shape with tail on right side */}
+            <path
+              d="M 30 20 Q 10 20 10 40 L 10 140 Q 10 160 30 160 L 290 160 L 310 185 L 320 160 L 370 160 Q 390 160 390 140 L 390 40 Q 390 20 370 20 Z"
+              fill="rgba(255, 255, 255, 0.95)"
+              stroke="rgba(0, 0, 0, 0.1)"
+              strokeWidth="2"
+            />
+            <foreignObject x="20" y="30" width="360" height="120">
+              <div className="px-4 py-2">
+                <p className="text-black text-sm font-medium leading-relaxed" style={{ fontFamily: '"Playwrite NZ Basic", cursive' }}>
+                  well listen i made this one just cz u wanted to listen to my trash voice....evn if i look like im into singing no ..no never nhii huu ..i could have sung smtg fitting to my voice but yk yk khush reh ismee...chup chap..badd mein karunga.
+                </p>
+              </div>
+            </foreignObject>
+          </svg>
+        </motion.div>
+      )}
 
       {/* Volume Control */}
       <VolumeBar

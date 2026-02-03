@@ -146,7 +146,7 @@ export default function GalleryPage() {
             textShadow: '0 4px 12px rgba(0, 0, 0, 0.3)'
           }}
         >
-          Jaan pics
+          GALLERY
         </h1>
       </motion.div>
 
