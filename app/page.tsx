@@ -85,13 +85,14 @@ export default function Welcome() {
             audioRef.current.play();
           }
         }}
-        className="absolute top-8 left-8 z-50 px-4 py-3 rounded-full backdrop-blur-md border-2 border-white/30 shadow-lg text-2xl"
+        className="absolute top-8 left-8 z-50 px-4 py-3 rounded-full backdrop-blur-md border border-white/20 text-2xl"
         style={{
           background: isDayMode
-            ? 'linear-gradient(135deg, #a8daff 0%, #e0f4ff 100%)'
-            : 'linear-gradient(135deg, #1e1b4b 0%, #4c1d95 100%)'
+            ? 'rgba(168, 218, 255, 0.3)'
+            : 'rgba(30, 27, 75, 0.3)',
+          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)'
         }}
-        whileHover={{ scale: 1.05 }}
+        whileHover={{ scale: 1.05, background: isDayMode ? 'rgba(168, 218, 255, 0.5)' : 'rgba(30, 27, 75, 0.5)' }}
         whileTap={{ scale: 0.95 }}
       >
         {bgMuted ? '🔇' : '🔊'}

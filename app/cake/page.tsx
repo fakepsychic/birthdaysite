@@ -12,7 +12,7 @@ function useMicBlow(onBlow: () => void, enabled: boolean) {
   const audioCtxRef = useRef<AudioContext | null>(null);
   const rafIdRef = useRef<number | null>(null);
 
-  const forceCleanup = () => {
+  const forceCleanup = async () => {
     if (rafIdRef.current) {
       cancelAnimationFrame(rafIdRef.current);
       rafIdRef.current = null;
@@ -25,7 +25,7 @@ function useMicBlow(onBlow: () => void, enabled: boolean) {
       streamRef.current = null;
     }
     if (audioCtxRef.current) {
-      audioCtxRef.current.close();
+      await audioCtxRef.current.close();
       audioCtxRef.current = null;
     }
   };
@@ -168,13 +168,11 @@ export default function CakePage() {
 
   // Enable mic blow detection 1s after black screen fades (at 4.6s total)
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setEnableMicBlow(true);
-
-      // Fade out background music when ready to blow
+    // Start fading out music earlier (at 2.6s) for a smoother 2-second fade
+    const fadeTimer = setTimeout(() => {
       if (bgAudioRef.current) {
-        const fadeOutDuration = 1000; // 1 second fade
-        const steps = 20;
+        const fadeOutDuration = 2000; // 2 second fade
+        const steps = 50;
         const stepDuration = fadeOutDuration / steps;
         const volumeStep = bgAudioRef.current.volume / steps;
 
@@ -191,9 +189,16 @@ export default function CakePage() {
           }
         }, stepDuration);
       }
+    }, 2600); // Start fade at 2.6s, finishes at 4.6s
+
+    const micTimer = setTimeout(() => {
+      setEnableMicBlow(true);
     }, 4600); // Black screen finishes fading at ~3.6s, + 1s = 4.6s
 
-    return () => clearTimeout(timer);
+    return () => {
+      clearTimeout(fadeTimer);
+      clearTimeout(micTimer);
+    };
   }, []);
 
   // Transition to State 3 after flame extinguish animation
