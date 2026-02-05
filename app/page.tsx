@@ -169,7 +169,7 @@ export default function Welcome() {
         <motion.div
           className="absolute pointer-events-none"
           style={{
-            left: isDayMode ? '48.74%' : '38.74%',
+            left: isDayMode ? '48.74%' : '45.74%',
             top: isDayMode ? '0%' : '5%',
             width: isDayMode ? '110.9416%' : '100.856%',
           }}
@@ -196,40 +196,37 @@ export default function Welcome() {
           </AnimatePresence>
         </motion.div>
 
+
+
         {/* Welcome Button */}
         <motion.div
+          onClick={handleButtonClick}
           className="absolute cursor-pointer"
           style={{
-            left: isDayMode ? '20%' : '22%',
+            left: isDayMode ? '20%' : '18%',
             top: isDayMode ? '61%' : '59%',
-            width: isDayMode ? '61.242156%' : '60.829262%',
-            transform: isDayMode ? 'translateX(-50%) scale(1.08)' : 'translateX(-50%) scaleX(1.07272) scaleY(0.736)',
+            width: isDayMode ? '62.9629%' : '63.43553%',
             zIndex: 30,
+            pointerEvents: 'auto',
           }}
-          onClick={handleButtonClick}
-          whileHover={{ filter: 'brightness(0.9)' }}
-          animate={{ scale: [1, 1.02, 1] }}
-          transition={{
-            scale: {
-              duration: 2,
-              repeat: Infinity,
-              ease: 'easeInOut'
-            },
-            filter: { duration: 0.1 }
-          }}
+          whileHover={{ scale: 1.05, filter: 'brightness(0.85)' }}
+          whileTap={{ scale: 0.95 }}
         >
           <AnimatePresence mode="wait">
             <motion.img
               key={isDayMode ? 'day-button' : 'night-button'}
               src={isDayMode ? '/assets/day%20welcome/welcome%20day%20button.png' : '/assets/night%20welcome/welcome%20night%20button.png'}
-              alt="welcome"
-              className="w-full h-auto block"
+              alt="welcome button"
+              className="w-full h-auto"
               draggable={false}
-              style={{ display: 'block' }}
-              initial={{ opacity: 0, scale: 0.95 }}
+              style={{
+                filter: 'drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3))',
+                transform: isDayMode ? 'none' : 'scaleY(0.538)',
+              }}
+              initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              transition={{ duration: 0.4 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              transition={{ duration: 0.3 }}
             />
           </AnimatePresence>
         </motion.div>
@@ -239,9 +236,9 @@ export default function Welcome() {
           ref={mascotRef}
           className="absolute cursor-pointer"
           style={{
-            left: isDayMode ? '-1.1%' : '-4.1%',
-            top: isDayMode ? '33.4%' : '32.4%',
-            width: isDayMode ? '41.976%' : '46.34146%',
+            left: isDayMode ? '3.9%' : '1.9%',
+            top: isDayMode ? '38.4%' : '38.4%',
+            width: isDayMode ? '29.75049%' : '31.067858%',
             zIndex: 40,
             perspective: '800px',
             pointerEvents: 'auto',

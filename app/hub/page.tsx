@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import TiltedCard from '@/components/TiltedCard';
+import TargetCursor from '@/components/TargetCursor';
 import Head from 'next/head';
 import { useState, useEffect, useRef } from 'react';
 
@@ -62,6 +63,8 @@ export default function HubPage() {
 
   return (
     <>
+      <TargetCursor targetSelector=".cursor-target" spinDuration={2} hideDefaultCursor={true} />
+
       <Head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
@@ -127,7 +130,7 @@ export default function HubPage() {
 
         {/* Main viewport container - maintains 1080x1350 portrait ratio */}
         <div
-          className="relative w-full h-full max-w-[85vh] max-h-[85vw] flex items-center justify-center"
+          className="relative w-full h-full max-w-[95vh] max-h-[95vw] flex items-center justify-center"
           style={{
             boxShadow: '0 0 120px rgba(0, 0, 0, 0.5), 0 0 200px rgba(0, 0, 0, 0.3), 0 0 300px rgba(0, 0, 0, 0.2)',
           }}
@@ -200,6 +203,7 @@ export default function HubPage() {
                     }}
                   >
                     <motion.div
+                      className="cursor-target"
                       initial={{ opacity: 0, y: 30, scale: 0.8 }}
                       animate={{
                         opacity: 1,
