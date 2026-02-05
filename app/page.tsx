@@ -17,6 +17,7 @@ export default function Welcome() {
   const [isMobile, setIsMobile] = useState(false);
   const [isDayMode, setIsDayMode] = useState(true);
   const [bgMuted, setBgMuted] = useState(true);
+  const [isBouncing, setIsBouncing] = useState(false);
   const mascotRef = useRef<HTMLDivElement>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
 
@@ -45,31 +46,10 @@ export default function Welcome() {
     setIsDayMode(!isDayMode);
   };
 
-  function handleMascotMouse(e: React.MouseEvent<HTMLDivElement>) {
-    if (!mascotRef.current || isMobile) return;
-
-    const rect = mascotRef.current.getBoundingClientRect();
-    const offsetX = e.clientX - rect.left - rect.width / 2;
-    const offsetY = e.clientY - rect.top - rect.height / 2;
-
-    const rotationX = (offsetY / (rect.height / 2)) * -14;
-    const rotationY = (offsetX / (rect.width / 2)) * 14;
-
-    rotateX.set(rotationX);
-    rotateY.set(rotationY);
-  }
-
-  function handleMascotEnter() {
-    if (isMobile) return;
-    scale.set(1.05);
-  }
-
-  function handleMascotLeave() {
-    if (isMobile) return;
-    scale.set(1);
-    rotateX.set(0);
-    rotateY.set(0);
-  }
+  const handleMascotClick = () => {
+    setIsBouncing(true);
+    setTimeout(() => setIsBouncing(false), 1200);
+  };
 
   return (
     <div className="fixed inset-0 flex items-center justify-center overflow-hidden">
@@ -220,7 +200,7 @@ export default function Welcome() {
         <motion.div
           className="absolute cursor-pointer"
           style={{
-            left: isDayMode ? '23%' : '22%',
+            left: isDayMode ? '20%' : '22%',
             top: isDayMode ? '61%' : '59%',
             width: isDayMode ? '61.242156%' : '60.829262%',
             transform: isDayMode ? 'translateX(-50%) scale(1.08)' : 'translateX(-50%) scaleX(1.07272) scaleY(0.736)',
@@ -257,27 +237,39 @@ export default function Welcome() {
         {/* Mascot with delay and transition - NOT CLICKABLE */}
         <motion.div
           ref={mascotRef}
-          className="absolute"
+          className="absolute cursor-pointer"
           style={{
             left: isDayMode ? '-1.1%' : '-4.1%',
             top: isDayMode ? '33.4%' : '32.4%',
-            width: isDayMode ? '47.7%' : '52.6608%',
+            width: isDayMode ? '41.976%' : '46.34146%',
             zIndex: 40,
             perspective: '800px',
             pointerEvents: 'auto',
           }}
           initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.5 }}
-          onMouseMove={handleMascotMouse}
-          onMouseEnter={handleMascotEnter}
-          onMouseLeave={handleMascotLeave}
+          animate={{
+            opacity: 1,
+            y: isBouncing ? [0, -35, 0, -18, 0, -8, 0, -3, 0] : [0, -8.8, 0]
+          }}
+          transition={{
+            opacity: { duration: 0.8, delay: 0.5 },
+            y: isBouncing
+              ? {
+                duration: 1.2,
+                ease: "easeOut",
+                times: [0, 0.15, 0.3, 0.45, 0.6, 0.75, 0.85, 0.95, 1]
+              }
+              : {
+                duration: 4.4,
+                repeat: Infinity,
+                ease: 'easeInOut',
+                delay: 0.5
+              }
+          }}
+          onClick={handleMascotClick}
         >
           <motion.div
             style={{
-              rotateX,
-              rotateY,
-              scale,
               transformStyle: 'preserve-3d',
             }}
           >

@@ -261,6 +261,7 @@ export default function GiftPage() {
           {/* Title */}
           <motion.div
             className="mb-3"
+            style={{ paddingLeft: '5%' }}
             animate={isUnlocking ? {
               scale: [1, 1.05, 1],
             } : {}}

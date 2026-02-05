@@ -19,7 +19,7 @@ const images: ImageItem[] = [
   { id: '3', img: '/assets/gallery/p3.png', url: '#', height: 900, caption: 'cutie' },
   { id: '4', img: '/assets/gallery/p4.png', url: '#', height: 700, caption: 'sexyyyy jaweeee' },
   { id: '5', img: '/assets/gallery/p5.png', url: '#', height: 850, caption: '2x cutiesss' },
-  { id: '6', img: '/assets/gallery/p6.png', url: '#', height: 750, caption: 'Thts the best a.i could come up with..like wth..IM BETTA THN THT' },
+  { id: '6', img: '/assets/gallery/p6.png', url: '#', height: 750, caption: 'A.I slop.... 😩 like wth we betta thn tht' },
 ];
 
 export default function GalleryPage() {

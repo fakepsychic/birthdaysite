@@ -56,6 +56,13 @@ export const songs: Song[] = [
         artist: "Dang Bala",
         image: "https://i.pinimg.com/736x/10/d7/ac/10d7ac5531653720794a71d35bd40a13.jpg",
     },
+        {
+        id: "Daraaz Mein",
+        title: "Daraaz Mein",
+        artist: "Armpit bala",
+        image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVzRvsq5e4L6akpBDP52WeYFXsn72HAjzY4w&s",
+    },
+
      {
         id: "k",
         title: "woh lamhein",
