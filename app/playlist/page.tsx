@@ -198,9 +198,9 @@ export default function PlaylistPage() {
             left: 'calc(50% - 550px + 2%)',
             top: 'calc(50% - 200px - 5%)'
           }}
-          initial={{ opacity: 0, scale: 0.792 }}
-          animate={{ opacity: 1, scale: 0.88 }}
-          exit={{ opacity: 0, scale: 0.792 }}
+          initial={{ opacity: 0, scale: 0.7128 }}
+          animate={{ opacity: 1, scale: 0.792 }}
+          exit={{ opacity: 0, scale: 0.7128 }}
           transition={{
             duration: 0.6,
             ease: [0.16, 1, 0.3, 1]
