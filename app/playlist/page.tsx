@@ -30,6 +30,22 @@ export default function PlaylistPage() {
   )
   const [previousOrderedSongs, setPreviousOrderedSongs] =
     useState<string[]>(orderedSongs)
+
+  // Show tooltip when 'chii' song is active (last in the ordered list)
+  useEffect(() => {
+    const activeSongId = orderedSongs[orderedSongs.length - 1];
+    if (activeSongId === 'chii' && !hasShownTooltip) {
+      setShowTooltip(true);
+      setHasShownTooltip(true);
+      // Hide after 20 seconds with smooth fade
+      const timer = setTimeout(() => {
+        setShowTooltip(false);
+      }, 20000);
+      return () => clearTimeout(timer);
+    } else if (activeSongId !== 'chii') {
+      setShowTooltip(false);
+    }
+  }, [orderedSongs, hasShownTooltip]);
   const [leaning, setLeaning] = useState<Lean>(null)
   const [volume, setVolume] = useState(0.5)
   const [muted, setMuted] = useState(true)
@@ -185,7 +201,10 @@ export default function PlaylistPage() {
           initial={{ opacity: 0, scale: 0.792 }}
           animate={{ opacity: 1, scale: 0.88 }}
           exit={{ opacity: 0, scale: 0.792 }}
-          transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+          transition={{
+            duration: 0.6,
+            ease: [0.16, 1, 0.3, 1]
+          }}
         >
           <img
             src="/assets/playlist/playlist text.png"
