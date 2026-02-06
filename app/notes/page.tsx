@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { useState, useRef } from 'react';
+import { useRouter } from 'next/navigation';
 import BounceCards from '@/components/BounceCards';
 import ClickSpark from '@/components/ClickSpark';
 
@@ -22,6 +23,7 @@ const transformStyles = [
 ];
 
 export default function NotesPage() {
+  const router = useRouter();
   const containerRef = useRef<HTMLElement>(null);
   const [mascotPosition, setMascotPosition] = useState({ x: 100, y: 100 });
 
@@ -87,6 +89,25 @@ export default function NotesPage() {
       onPointerMove={handlePointerMove}
       onTouchMove={handleTouchMove}
     >
+      {/* Back button */}
+      <motion.button
+        initial={{ opacity: 0, x: -20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: 0.3, duration: 0.6 }}
+        onClick={() => router.push('/hub')}
+        className="fixed top-6 left-6 z-50 w-12 h-12 rounded-full flex items-center justify-center backdrop-blur-sm"
+        style={{
+          backgroundColor: 'rgba(255, 255, 255, 0.9)',
+          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)'
+        }}
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.95 }}
+      >
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ff69b4" strokeWidth="2">
+          <path d="M19 12H5M12 19l-7-7 7-7" />
+        </svg>
+      </motion.button>
+
       <motion.div
         initial={{ opacity: 0, y: -10 }}
         animate={{

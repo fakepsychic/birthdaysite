@@ -18,6 +18,13 @@ export const songs: Song[] = [
         artist: "Armpit Bala",
         image: "https://i.pinimg.com/736x/8e/05/b9/8e05b97803800d59f905b815cf5108ca.jpg",
     },
+       {
+        id: "pyar ki si",
+        title: "pyar ki si",
+        artist: "Nanku",
+        image: "https://images.genius.com/bd078921b29f521d87305b5961d40919.1000x1000x1.png",
+    },
+    
 
       {
         id: "chii",

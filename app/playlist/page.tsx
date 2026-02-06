@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
+import { useRouter } from "next/navigation"
 import { songs } from "./songs"
 import SongWidget from "./SongWidget"
 import VolumeBar from "./VolumeBar"
@@ -11,6 +12,7 @@ import ClickSpark from "@/components/ClickSpark"
 export type Lean = "left" | "right" | null
 
 export default function PlaylistPage() {
+  const router = useRouter()
   const [showSinging, setShowSinging] = useState(false)
   const [showTooltip, setShowTooltip] = useState(false)
   const [hasShownTooltip, setHasShownTooltip] = useState(false)
@@ -50,6 +52,25 @@ export default function PlaylistPage() {
 
   return (
     <main className="fixed inset-0 flex flex-col items-center justify-center gap-12 pb-20" style={{ background: 'linear-gradient(to bottom, #f9a8d4 0%, #ffffff 50%, #d8b4fe 90%, #d8b4fe 100%)', overflow: 'clip' }}>
+      {/* Back button */}
+      <motion.button
+        initial={{ opacity: 0, x: -20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: 0.3, duration: 0.6 }}
+        onClick={() => router.push('/hub')}
+        className="fixed top-6 left-6 z-50 w-12 h-12 rounded-full flex items-center justify-center backdrop-blur-sm"
+        style={{
+          backgroundColor: 'rgba(255, 255, 255, 0.9)',
+          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)'
+        }}
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.95 }}
+      >
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#a950bb" strokeWidth="2">
+          <path d="M19 12H5M12 19l-7-7 7-7" />
+        </svg>
+      </motion.button>
+
       <div className="absolute inset-0 pointer-events-none">
         <ClickSpark
           sparkColor="#a950bbff"
@@ -157,31 +178,21 @@ export default function PlaylistPage() {
         <motion.div
           className="absolute pointer-events-none"
           style={{
-            zIndex: 9999,
-            left: 'calc(50% - 550px)',
-            top: 'calc(50% - 200px)'
+            zIndex: 1,
+            left: 'calc(50% - 550px + 2%)',
+            top: 'calc(50% - 200px - 5%)'
           }}
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.9 }}
+          initial={{ opacity: 0, scale: 0.792 }}
+          animate={{ opacity: 1, scale: 0.88 }}
+          exit={{ opacity: 0, scale: 0.792 }}
           transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
         >
-          <svg width="400" height="200" viewBox="0 0 400 200" className="drop-shadow-xl">
-            {/* Speech bubble shape with tail on right side */}
-            <path
-              d="M 30 20 Q 10 20 10 40 L 10 140 Q 10 160 30 160 L 290 160 L 310 185 L 320 160 L 370 160 Q 390 160 390 140 L 390 40 Q 390 20 370 20 Z"
-              fill="rgba(255, 255, 255, 0.95)"
-              stroke="rgba(0, 0, 0, 0.1)"
-              strokeWidth="2"
-            />
-            <foreignObject x="20" y="30" width="360" height="120">
-              <div className="px-4 py-2">
-                <p className="text-black text-sm font-medium leading-relaxed" style={{ fontFamily: '"Playwrite NZ Basic", cursive' }}>
-                  well listen i made this one just cz u wanted to listen to my trash voice....evn if i look like im into singing no ..no never nhii huu ..i could have sung smtg fitting to my voice but yk yk khush reh ismee...chup chap..badd mein karunga.
-                </p>
-              </div>
-            </foreignObject>
-          </svg>
+          <img
+            src="/assets/playlist/playlist text.png"
+            alt="playlist text"
+            className="drop-shadow-xl"
+            style={{ width: '400px', height: 'auto' }}
+          />
         </motion.div>
       )}
 

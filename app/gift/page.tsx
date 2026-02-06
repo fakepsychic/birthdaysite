@@ -76,6 +76,25 @@ export default function GiftPage() {
           : 'linear-gradient(135deg, #f3e8ff 0%, #e9d5ff 50%, #c084fc 100%)'
       }}
     >
+      {/* Back button */}
+      <motion.button
+        initial={{ opacity: 0, x: -20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: 0.3, duration: 0.6 }}
+        onClick={() => router.push('/hub')}
+        className="fixed top-6 left-6 z-50 w-12 h-12 rounded-full flex items-center justify-center backdrop-blur-sm"
+        style={{
+          backgroundColor: 'rgba(255, 255, 255, 0.9)',
+          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)'
+        }}
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.95 }}
+      >
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#c084fc" strokeWidth="2">
+          <path d="M19 12H5M12 19l-7-7 7-7" />
+        </svg>
+      </motion.button>
+
       {/* Subtle grid pattern */}
       <div className="absolute inset-0 opacity-[0.02]" style={{
         backgroundImage: 'radial-gradient(circle, #000 1px, transparent 1px)',

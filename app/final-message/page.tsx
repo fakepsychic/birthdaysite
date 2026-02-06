@@ -8,6 +8,7 @@ import { useState, useRef, useEffect } from 'react';
 export default function MessagePage() {
   const router = useRouter();
   const [isBouncing, setIsBouncing] = useState(false);
+  const [bgMuted, setBgMuted] = useState(true);
   const audioRef = useRef<HTMLAudioElement>(null);
 
   useEffect(() => {
@@ -31,7 +32,27 @@ export default function MessagePage() {
       style={{ background: 'linear-gradient(135deg, #ffd6e0 0%, #ffb6c1 50%, #ff69b4 100%)' }}
     >
       {/* Background Music */}
-      <audio ref={audioRef} src="/audio/welcomepage.mp3" loop autoPlay preload="auto" />
+      <audio ref={audioRef} src="/audio/welcomepage.mp3" loop muted={bgMuted} autoPlay preload="auto" />
+
+      {/* Mute Button */}
+      <motion.button
+        onClick={() => {
+          const newMutedState = !bgMuted;
+          setBgMuted(newMutedState);
+          if (!newMutedState && audioRef.current) {
+            audioRef.current.play();
+          }
+        }}
+        className="absolute top-8 left-8 z-50 px-4 py-3 rounded-full backdrop-blur-md border border-white/20 text-2xl"
+        style={{
+          background: 'rgba(255, 105, 180, 0.3)',
+          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)'
+        }}
+        whileHover={{ scale: 1.05, background: 'rgba(255, 105, 180, 0.5)' }}
+        whileTap={{ scale: 0.95 }}
+      >
+        {bgMuted ? '🔇' : '🔊'}
+      </motion.button>
 
       {/* Main container grouping letter, pin, and Kuromi - scales together */}
       <div className="relative w-full h-full max-w-[85vh] max-h-[85vw] flex items-center justify-center">
